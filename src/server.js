@@ -1,21 +1,24 @@
-require('dotenv').config()
-const express=require('express');
-const app=express();
-const mongoose=require('mongoose')
+const express = require('express');
+const mongoose = require('mongoose')
 const cors = require('cors');
+const bodyParser = require('body-parser');
+require('dotenv').config()
+
+const app = express();
 
 app.use(cors());
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser:true })
-const db=mongoose.connection
-db.on('error',(error)=>console.log(error))
-db.once('open',()=>console.log("Connected to Database"))
 
-app.use(express.json())
+app.use(bodyParser.json());
 
-const scoreboardRouter=require('../routes/scoreboard')
-app.use('/scoreboard',scoreboardRouter)
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+const db = mongoose.connection
+db.on('error', (error) => console.log(error))
+db.once('open', () => console.log("Connected to Database"))
 
-var port = process.env.PORT || '3000';
+const scoreboardRouter = require('../routes/scoreboard')
+app.use('/scoreboard', scoreboardRouter)
+
+const port = process.env.PORT || '3000';
 app.set('port', port);
 
-app.listen(port,()=>console.log('Server Started'))
+app.listen(port, () => console.log('Server Started'))
