@@ -1,6 +1,4 @@
 const express = require('express')
-const res = require('express/lib/response')
-const scoreboard = require('../models/scoreboard')
 const router = express.Router()
 const Scoreboard = require('../models/scoreboard')
 
@@ -13,8 +11,6 @@ router.get('/', async (req, res) => {
     });
 
 })
-
-
 
 router.get('/:id', getScore, async (req, res) => {
     res.json(res.scoreboard)
